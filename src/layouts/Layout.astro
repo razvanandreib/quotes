@@ -19,56 +19,8 @@ const { title } = Astro.props;
   <body>
     <slot />
     <div id="data-container"></div>
-    <div id="select-author"></div>
+    <div id="selected-author"></div>
   </body>
 </html>
 
-<script is:inline>
-  function fetchData() {
-    return fetch("http://localhost:3000/data") // Return the fetch promise
-      .then((response) => response.json())
-      .then((data) => {
-        // Parse data and select specific items
-        const selectedData = data.map((item) => {
-          return {
-            author: item.author,
-            content: item.content,
-            // Add more properties as needed
-          };
-        });
-
-        // Render selected data in HTML
-        const dataContainer = document.getElementById("data-container");
-        dataContainer.innerHTML = "";
-
-        selectedData.forEach((item) => {
-          const div = document.createElement("div");
-
-          div.innerHTML = `<p><strong>Author:</strong> ${item.author}</p>
-                               <p><strong>Content:</strong> ${item.content}</p>`;
-          // Add more HTML for other properties
-
-          dataContainer.appendChild(div);
-        });
-
-        return selectedData; // Return the selected data
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        throw error; // Throw the error to propagate it to the caller
-      });
-  }
-
-  // Call the fetchData function when the page loads
-  window.onload = () => {
-    fetchData()
-      .then((selectedData) => {
-        console.log("Selected data:", selectedData); // Access the selected data here
-      })
-      .catch((error) => {
-        // Handle error
-      });
-  };
-
-  window.onload = selectData;
-</script>
+<script src="../js/selectedData.js"></script>
